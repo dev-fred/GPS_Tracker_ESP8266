@@ -24,9 +24,11 @@ En ajoutant le Widget Balise contenu dans le fichier WIDGETS.zip on pourra affic
 ### Note
 Ce Widget utilise 1/4 d'écran et permet de conserver les sliders.
 
+<img src="img/Capture Balise0_censored.jpg" width = "500">
+
 VMAX n'est pas affiché dans ce widget; il faut ajouter dans le bandeau le petit widget Value = VMAX.
 
-<img src="img/Capture Balise0_censored.jpg" width = "500">
+<img src="img/Bandeau.PNG" width = "500">
 
 # Adaptation du projet moschotto
 https://github.com/moschotto/OpenTX_GPS_Telemetry  
