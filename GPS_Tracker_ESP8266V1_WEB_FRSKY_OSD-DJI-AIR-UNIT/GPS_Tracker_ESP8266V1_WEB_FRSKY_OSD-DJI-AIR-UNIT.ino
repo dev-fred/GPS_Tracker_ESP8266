@@ -47,14 +47,14 @@ MSP msp;
 msp_raw_gps_t raw_gps = {0};
 msp_comp_gps_t comp_gps = {0};
 
-float gps_home_lon = 0;
-float gps_home_lat = 0;
+double gps_home_lon = 0.0;
+double gps_home_lat = 0.0;
 int32_t gps_home_alt = 0;
 int16_t heading = 0;
 float distanceToHome = 0;    // distance to home in meters
 int16_t directionToHome = 0; // direction to home in degrees
 
-void send_msp_to_airunit(float gps_lat,float gps_lon,int8_t numSat,float groundspeed,int16_t _heading)
+void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groundspeed,int16_t _heading)
 {
     //MSP_RAW_GPS
     raw_gps.lat = (int32_t)(gps_lat*10000000.0f);
@@ -145,18 +145,18 @@ void send_osd_config()
 }
 
 const float kmpdeg = 111.195f;  // km per degree
-float coslat; // 1.000 @ 0° ,  0.500 @ 60°
+double coslat; // 1.000 @ 0° ,  0.500 @ 60°
 
 #define TAN_89_99_DEGREES 5729.57795f
 
-void GPS_distance_cm_bearing(float *currentLat1, float *currentLon1, float *destinationLat2, float *destinationLon2, float *dist, int32_t *bearing)
+void GPS_distance_cm_bearing(double *currentLat1, double *currentLon1, double *destinationLat2, double *destinationLon2, double *dist, int32_t *bearing)
 {
   if (coslat == 0.0) {  // no need to calculate every time
-    float lat = (*destinationLat2 + *currentLat1) / 2;
+    double lat = (*destinationLat2 + *currentLat1) / 2;
     coslat = cos(lat * PI / 180);
   } 
-    float dLat = *destinationLat2 - *currentLat1; // difference of latitude in 1/10 000 000 degrees
-    float dLon = (*destinationLon2 - *currentLon1) * coslat;
+    double dLat = *destinationLat2 - *currentLat1; // difference of latitude in 1/10 000 000 degrees
+    double dLon = (*destinationLon2 - *currentLon1) * coslat;
     // Get distance between two points in km
     *dist = sqrtf(dLat*dLat + dLon*dLon) * kmpdeg;
     // Get bearing from pos1 to pos2, returns an 1deg = 100 precision
@@ -165,10 +165,10 @@ void GPS_distance_cm_bearing(float *currentLat1, float *currentLon1, float *dest
   *bearing += 36000;
 }
 
-void GPS_calculateDistanceAndDirectionToHome(float gps_lat,float gps_lon)
+void GPS_calculateDistanceAndDirectionToHome(double gps_lat,double gps_lon)
 {
   if (gps_home_lat != 0 && gps_home_lon != 0) {// If we don't have home set, do not display anything
-        float dist;
+        double dist;
         int32_t dir;
         GPS_distance_cm_bearing(&gps_lat, &gps_lon, &gps_home_lat, &gps_home_lon, &dist, &dir);
         distanceToHome = dist * 1000; //km -> m
