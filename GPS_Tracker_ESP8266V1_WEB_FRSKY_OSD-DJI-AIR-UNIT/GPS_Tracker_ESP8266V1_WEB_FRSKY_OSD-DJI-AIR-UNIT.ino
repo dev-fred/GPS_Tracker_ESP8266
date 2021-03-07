@@ -144,7 +144,7 @@ void send_osd_config()
     msp.send(MSP_OSD_CONFIG, &msp_osd_config, sizeof(msp_osd_config));
 }
 
-const float kmpdeg = 111.195f;  // km per degree
+const double kmpdeg = 111.195f;  // km per degree
 double coslat; // 1.000 @ 0° ,  0.500 @ 60°
 
 #define TAN_89_99_DEGREES 5729.57795f
