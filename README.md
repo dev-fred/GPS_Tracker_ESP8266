@@ -18,6 +18,16 @@ Balise basé sur https://github.com/f5soh/balise_esp32 et adapté pour un ESP826
 
 Fonctionne avec un buzzer actif optionnel et un GPS BN-180 ou un BN-220, pèse 11g.
 
+# GPS_Tracker_ESP8266V1_FRSKY
+
+### [Code](GPS_Tracker_ESP8266V1_FRSKY)
+
+Battit au-dessus de GPS_Tracker_ESP8266V1, cette version ajoute une sortie FRSKY S.port sur le connecteur JR d'alimentation afin d'envoyer les données du GPS de la balise à un récepteur FRSKY via la télémétrie que l'on pourra afficher avec un script LUA.
+Le gros avantage c’est la réception des infos GPS à travers la télémétrie qui passe par le couple émetteur/récepteur qui a une bien meilleure portée que le couple Balise/Smartphone ce qui permet à la balise de rendre un service de localisation assez fiable en cas de perte de l’appareil.
+
+<img src="GPS_Tracker_ESP8266V1_FRSKY/img/Capture Balise0_censored.jpg" width = "600">
+
+
 # GPS_Tracker_ESP8266V1_WEB
 
 ### [Code](GPS_Tracker_ESP8266V1_WEB)
