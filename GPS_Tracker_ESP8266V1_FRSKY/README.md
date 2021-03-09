@@ -5,7 +5,7 @@ Cette version s'appuie sur la librairie de PawelSky https://www.rcgroups.com/for
 - Vérifier que libraries contient le répertoire FrSkySportTelemetry 
 - Allez dans Fichier-> Préférences -> Emplacement du carnet de croquis: c'est au bout de ce chemin que se trouve le répertoire libraries
 
-La base est la même que le projet https://github.com/dev-fred/GPS_Tracker_ESP8266/tree/main/GPS_Tracker_ESP8266V1_WEB pour la compilation et la partie smartphone.
+La base est la même que le projet https://github.com/dev-fred/GPS_Tracker_ESP8266/tree/main/GPS_Tracker_ESP8266V1 pour la compilation.
 
 Sur la Radio après la découverte des capteurs
 
@@ -15,7 +15,7 @@ Il suffira de renommer
 - 0860 en HDOP et de mettre une Précision de 0.00 
 - 0870 en SAT
 - 0880 en STAT
-- 0890 en VMAX et de mettre une Précision de 0.00 (est en km/h et on peut l'afficher avec le widget Value ou depuis la page WEB de la balise)
+- 0890 en VMAX et de mettre une Précision de 0.00 (est en km/h et on peut l'afficher avec le widget Value)
 
 <img src="img/screen-2021-02-01-195046.jpg" width = "300">
 
@@ -26,7 +26,7 @@ Ce Widget utilise 1/4 d'écran et permet de conserver les sliders.
 
 <img src="img/Capture Balise0_censored.jpg" width = "500">
 
-VMAX, DIST, DIRE ne sont pas affichés dans ce widget; il faut ajouter dans le bandeau le petit widget Value.
+VMAX n'est pas affiché dans ce widget; il faut ajouter dans le bandeau le petit widget Value.
 
 <img src="img/Bandeau.PNG" width = "500">
 
