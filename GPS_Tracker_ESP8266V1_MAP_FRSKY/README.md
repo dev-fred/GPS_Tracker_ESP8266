@@ -1,6 +1,6 @@
 <img src="img/Balise-S6R.PNG" width = "400">
 
-Cette version s'appuie sur la librairie de PawelSky https://www.rcgroups.com/forums/showatt.php?attachmentid=14504485&d=1610286712 à installer dans libraries: 
+Cette version combine GPS_Tracker_ESP8266V1_MAP et GPS_Tracker_ESP8266V1_FRSKY qui s'appuie sur la librairie de PawelSky https://www.rcgroups.com/forums/showatt.php?attachmentid=14504485&d=1610286712 à installer dans libraries: 
 - Charger le fichier FrSkySportTelemetry_20210110.zip : Croquis-> Inclure une bibliothèque -> Ajouter la bibliothèque .ZIP
 - Vérifier que libraries contient le répertoire FrSkySportTelemetry 
 - Allez dans Fichier-> Préférences -> Emplacement du carnet de croquis: c'est au bout de ce chemin que se trouve le répertoire libraries
