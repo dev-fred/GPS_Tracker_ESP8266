@@ -66,4 +66,6 @@ Ce projet nécessitant 2 UARTs utilise un NodeMCU de la famille ESP8266.
 
 # GPS_Tracker_ESP8266V1_MAP
 
-Projet retiré, il ne tient pas ses promesses; la portée de la balise et la fréquence d'échantillonage des positions GPS sont trés insuffisantes.
+### [Code](GPS_Tracker_ESP8266V1_MAP)
+
+Projet déconseillé, il ne tient pas ses promesses; la portée de la balise et la fréquence d'échantillonage des positions GPS sont trés insuffisantes.
