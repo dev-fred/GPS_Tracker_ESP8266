@@ -306,9 +306,9 @@ void setup()
   //-------Configure GPS ublox
   delay(100); // Little delay before flushing.
   softSerial.flush();
-  //-------Config RATE = 500 ms
-  Serial.println("Configure GPS RATE = 500 ms");
-  Rate500();
+  //-------Config RATE = 166 ms
+  Serial.println("Configure GPS RATE = 166 ms");
+  Rate166();
   delay(100); // Little delay before flushing.
   softSerial.flush();
   //--------Config CHANNELS 
@@ -346,7 +346,7 @@ unsigned  long _heures=0;
 unsigned  long _minutes=0;
 unsigned  long _secondes=0;
 const unsigned int limite_sat = 5;
-const float limite_hdop = 2.5;
+const float limite_hdop = 2.0;
 float _hdop = 0.0;
 unsigned int _sat = 0;
 float GPS[]={0.0,0.0,0.0,0.0,0.0};
@@ -451,8 +451,7 @@ void loop()
     drone_idfr.set_heading(GPS[4]);    
     //  drone_idfr.set_current_position(gps.location.lat(), gps.location.lng(), gps.altitude.meters());    
     drone_idfr.set_current_position(GPS[0], GPS[1], (int16_t)GPS[2]);
-    
-                                        
+           
     //Calcul VMAX
     //80m/s max 
     if (GPS[3] < 80) {
@@ -468,12 +467,12 @@ void loop()
     drone_idfr.set_ground_speed(gps.speed.mps());
     
     //**************************************************************************
-    snprintf(buff[1], sizeof(buff[1]), "UTC:%d:%d:%d", gps.time.hour(), gps.time.minute(), gps.time.second());
+    snprintf(buff[1], sizeof(buff[1]), "UTC:%d:%d:%d", H, MN, S);
     _sat = gps.satellites.value(); if (_sat < limite_sat){snprintf(buff[2], sizeof(buff[2]), "--SAT:%u", _sat);}else{snprintf(buff[2], sizeof(buff[2]), "SAT:%u", _sat);}
     _hdop = gps.hdop.hdop(); if (_hdop > limite_hdop){ snprintf(buff[3], sizeof(buff[3]), "++HDOP:%.2f", _hdop);}else{snprintf(buff[3], sizeof(buff[3]), "HDOP:%.2f", _hdop);}
-    snprintf(buff[4], sizeof(buff[4]), "LNG:%.4f", gps.location.lng());
-    snprintf(buff[5], sizeof(buff[5]), "LAT:%.4f", gps.location.lat());
-    snprintf(buff[6], sizeof(buff[6]), "ALT:%.2f", gps.altitude.meters()-altitude_ref);
+    snprintf(buff[4], sizeof(buff[4]), "LNG:%.4f", GPS[1]);
+    snprintf(buff[5], sizeof(buff[5]), "LAT:%.4f", GPS[0]);
+    snprintf(buff[6], sizeof(buff[6]), "ALT:%.2f", GPS[2]-altitude_ref);
     snprintf(buff[7], sizeof(buff[7]), "VMAX(km/h):%.2f", float (VMAX*3.6));
     
     /*      Serial.print(buff[0]); 
