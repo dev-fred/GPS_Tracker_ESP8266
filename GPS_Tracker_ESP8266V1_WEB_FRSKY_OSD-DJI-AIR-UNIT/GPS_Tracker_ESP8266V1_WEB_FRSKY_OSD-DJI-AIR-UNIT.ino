@@ -193,7 +193,6 @@ FrSkySportTelemetry telemetry;
 #include <SoftwareSerial.h>
 #include <TinyGPS++.h>
 #include <ESP8266WebServer.h>
-#include <DNSServer.h>
 #include "index.h" //Web page file
 #include "droneID_FR.h"
 
@@ -247,10 +246,9 @@ static_assert((sizeof(drone_id)/sizeof(*drone_id))<=31, "Drone ID should be less
 // ========================================================== //
 
 /* Put IP Address details-> smartphone */
-/* Put IP Address details-> smartphone */
-const byte DNS_PORT = 53;
-DNSServer dnsServer;
-IPAddress apIP(192, 168, 1, 10);
+IPAddress local_ip(192, 168, 1, 10);
+IPAddress gateway(192, 168, 1, 1);
+IPAddress subnet(255, 255, 255, 0);
 
 ESP8266WebServer server(80);
 
@@ -278,47 +276,24 @@ TinyGPSPlus gps;
 
 char buff[14][34];
 
-void handleID() {server.send(200, "text/plane", buff[0]);}
-void handleUTC() {server.send(200, "text/plane", buff[1]);}
-void handleSAT() {server.send(200, "text/plane", buff[2]);}
-void handleHDOP() {server.send(200, "text/plane", buff[3]);}
-void handleLNG() {server.send(200, "text/plane", buff[4]);}
-void handleLAT() {server.send(200, "text/plane", buff[5]);}
-void handleALT() {server.send(200, "text/plane", buff[6]);}
-void handleVMAX() {server.send(200, "text/plane", buff[7]);}
-void handleSTATUS() {server.send(200, "text/plane", buff[8]);}
-void handleTRB() {server.send(200, "text/plane", buff[9]);}
-void handleDEP() {server.send(200, "text/plane", buff[10]);}
-void handleDLNG() {server.send(200, "text/plane", buff[11]);}
-void handleDLAT() {server.send(200, "text/plane", buff[12]);}
-void handleTIME() {server.send(200, "text/plane", buff[13]);}
-void handleNotFound() {server.send_P(200, "text/html", webpage);}
+void handleReadValues() {   //pour traiter la requette de mise à jour de la page HTML 
+  String mes = "";
+  for (int i = 0; i <= 14; i++) {
+    if (i != 0)  mes += ";";
+    mes += (String)i + "$" + buff[i] ;
+  }
+  server.send(200, "text/plain", mes);
+}
 
 void beginServer()
 {
   server.begin();
-  //connexion captive
-  dnsServer.start(DNS_PORT, "*", apIP);
-  server.onNotFound(handleNotFound);
-  
   server.on("/",[](){server.send_P(200, "text/html", webpage);});
-  server.on("/read0", handleID);
-  server.on("/read1", handleUTC);
-  server.on("/read2", handleSAT);
-  server.on("/read3", handleHDOP);
-  server.on("/read4", handleLNG);
-  server.on("/read5", handleLAT);
-  server.on("/read6", handleALT);
-  server.on("/read7", handleVMAX);
-  server.on("/read8", handleSTATUS);
-  server.on("/read9", handleTRB);
-  server.on("/read10", handleDEP);
-  server.on("/read11", handleDLNG);
-  server.on("/read12", handleDLAT);
-  server.on("/read13", handleTIME);
+  server.on("/readValues", handleReadValues);
   Serial.println ( "HTTP server started" );
 }
 
+//testé sur BN220
 void SelectChannels()
 {
   // CFG-GNSS packet GPS + Galileo + Glonas  
@@ -425,13 +400,13 @@ void setup()
     
     // set default AP settings
     WiFi.softAP(ssid, nullptr, 6, false, 4); // ssid, pwd, channel, hidden, max_cnx 
-    WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
+    WiFi.softAPConfig(local_ip, gateway, subnet);
     WiFi.setOutputPower(20.5); // max 20.5dBm
     delay(100);
   
     Serial.println();
     Serial.println("Started \\o/");
-    Serial.print("IP page WEB: ");Serial.println(apIP);
+    Serial.print("IP page WEB: ");Serial.println(local_ip);
     Serial.print("ID Drone: ");Serial.println(drone_id);
     WiFi.printDiag(Serial);
     
@@ -458,9 +433,6 @@ void setup()
     delay(100); // Little delay before flushing.
     softSerial.flush();
     //--------------------------------------------- 9600 ->BAUDRATE 57600
-    softSerial.begin(GPS_9600);
-    delay(100); // Little delay before flushing.
-    softSerial.flush();
     Serial.println("GPS BAUDRATE 57600");
     BaudRate57600();
     delay(100); // Little delay before flushing.
@@ -525,7 +497,6 @@ unsigned int status = 0;//status télémétrie
 void loop()
 {
   server.handleClient();
-  dnsServer.processNextRequest();
   
   //MSP_OSD
   if (millis() - sendosd > 2000) {

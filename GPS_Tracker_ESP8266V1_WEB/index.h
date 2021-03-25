@@ -18,35 +18,26 @@ line-height: 0%;
 </style>
 <title>Balise</title>
 </head>
-<script type="text/javascript">
+<script>
 setInterval(function() {
-// Call a function repetatively with 1 Second interval
-getData(0);
-getData(1);
-getData(2);
-getData(3);
-getData(4);
-getData(5);
-getData(6);
-getData(7);
-getData(8);
-getData(9);
-getData(10);
-getData(11);
-getData(12);
-getData(13);
-}, 3000); //3000mSeconds update rate
-function getData(i) {
-var xhttp = new XMLHttpRequest();
-xhttp.onreadystatechange = function() {
-if (this.readyState == 4 && this.status == 200) {
-document.getElementById("Value"+i).innerHTML =
-this.responseText;
+getData();
+},3000);//3000mSeconds update rate
+function getData(){
+var xhttp=new XMLHttpRequest();
+xhttp.onreadystatechange=function() {
+// chaine reçue numero$valeur;numero$valeur ...
+if (this.readyState==4&&this.status==200){
+this.responseText.split(';').forEach((item)=>{
+var i=item.split('$')[0].trim();
+var val=item.split('$')[1].replace(/"/g,'').trim();
+document.getElementById("Value"+i).innerHTML=val;
+});
 }
 };
-xhttp.open("GET", "read"+i, true);
+xhttp.open("GET","readValues",true);
 xhttp.send();
-};
+}
+getData();
 </script>
 <body onload="javascript:init()">
 <div class="card">

@@ -134,45 +134,26 @@ TinyGPSPlus gps;
 
 char buff[14][34];
 
-void handleID() {server.send(200, "text/plane", buff[0]);}
-void handleUTC() {server.send(200, "text/plane", buff[1]);}
-void handleSAT() {server.send(200, "text/plane", buff[2]);}
-void handleHDOP() {server.send(200, "text/plane", buff[3]);}
-void handleLNG() {server.send(200, "text/plane", buff[4]);}
-void handleLAT() {server.send(200, "text/plane", buff[5]);}
-void handleALT() {server.send(200, "text/plane", buff[6]);}
-void handleVMAX() {server.send(200, "text/plane", buff[7]);}
-void handleSTATUS() {server.send(200, "text/plane", buff[8]);}
-void handleTRB() {server.send(200, "text/plane", buff[9]);}
-void handleDEP() {server.send(200, "text/plane", buff[10]);}
-void handleDLNG() {server.send(200, "text/plane", buff[11]);}
-void handleDLAT() {server.send(200, "text/plane", buff[12]);}
-void handleTIME() {server.send(200, "text/plane", buff[13]);}
+void handleReadValues() {   //pour traiter la requette de mise à jour de la page HTML 
+  String mes = "";
+  for (int i = 0; i <= 14; i++) {
+    if (i != 0)  mes += ";";
+    mes += (String)i + "$" + buff[i] ;
+  }
+  server.send(200, "text/plain", mes);
+}
 
 void beginServer()
 {
   server.begin();
   server.on("/",[](){server.send_P(200, "text/html", webpage);});
-  server.on("/read0", handleID);
-  server.on("/read1", handleUTC);
-  server.on("/read2", handleSAT);
-  server.on("/read3", handleHDOP);
-  server.on("/read4", handleLNG);
-  server.on("/read5", handleLAT);
-  server.on("/read6", handleALT);
-  server.on("/read7", handleVMAX);
-  server.on("/read8", handleSTATUS);
-  server.on("/read9", handleTRB);
-  server.on("/read10", handleDEP);
-  server.on("/read11", handleDLNG);
-  server.on("/read12", handleDLAT);
-  server.on("/read13", handleTIME);
+  server.on("/readValues", handleReadValues);
   Serial.println ( "HTTP server started" );
 }
-
 static uint64_t tempoled;
 void SelectChannels()
 {
+//testé sur BN220  
 // CFG-GNSS packet GPS + Galileo + Glonas  
  byte packet[] = {0xB5, 0x62, 0x06, 0x3E, 0x3C, 0x00, 0x00, 0x00, 0x20, 0x07, 0x00, 0x08, 0x10, 0x00,
                   0x01, 0x00, 0x01, 0x01, 0x01, 0x01, 0x03, 0x00, 0x00, 0x00, 0x01, 0x01, 0x02, 0x04,
