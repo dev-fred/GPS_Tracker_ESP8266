@@ -60,7 +60,7 @@ DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos p
 * La vitesse sol
 * La direction du point de départ
 * La distance au point de départ
-* 
+
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
 Ce projet nécessitant 2 UARTs utilise un NodeMCU de la famille ESP8266.
