@@ -47,6 +47,14 @@ Le gros avantage c’est la réception des infos GPS à travers la télémétrie
 
 <img src="GPS_Tracker_ESP8266V1_WEB_FRSKY/img/Capture Balise0_censored.jpg" width = "600">
 
+# GPS_Tracker_ESP8266V1_WEB_FRSKY_OTA
+
+### [Code](GPS_Tracker_ESP8266V1_WEB_FRSKY_OTA)
+
+<img src="GPS_Tracker_ESP8266V1_WEB_FRSKY_OTA/img/C1.PNG" width = "300">
+
+Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une fonction **OTA** (Over The Air) de mise à jour du logiciel à travers la liaison WiFi, très utile pour une implémentation du projet sur un ESP01.
+
 # GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT
 
 ### [Code](GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT)
