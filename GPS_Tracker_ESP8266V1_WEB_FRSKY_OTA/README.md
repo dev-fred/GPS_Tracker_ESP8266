@@ -11,7 +11,7 @@ On l'identifie facilement par la date/heure de compilation.
 #### Page OTA
 <img src="img/C2.PNG" width = "500">
 
-#### Choix du fichier ino, chargé au préalable sue le smartphone
+#### Choix du fichier ino, chargé au préalable sur le smartphone
 <img src="img/C3.PNG" width = "500">
 
 #### Lancement du chargement
