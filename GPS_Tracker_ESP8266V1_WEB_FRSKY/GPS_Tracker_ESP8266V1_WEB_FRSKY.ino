@@ -124,6 +124,8 @@ TinyGPSPlus gps;
 #define USE_SERIAL Serial
 
 char buff[14][34];
+// 0$ID;1$UTC;2$SAT;3$HDOP;4$LNG;5$LAT;6$ALT;7$VMAX;8$STATUS;9$TRAME;10$DEP;11$DLNG;12$DLAT;13$TIME
+
 
 void handleReadValues() {   //pour traiter la requette de mise à jour de la page HTML 
   String mes = "";
