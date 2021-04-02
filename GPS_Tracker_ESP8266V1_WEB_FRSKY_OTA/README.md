@@ -3,8 +3,7 @@ Merci à fanfanlatulipe26 pour sa contribution : https://github.com/fanfanlatuli
 
 Le premier chargement se fait de façon classique, et par la suite on peut utiliser le système OTA.
 Le fichier résultat de compilation qui doit être téléchargé se trouve dans
-C:\Users\xxxxx\AppData\Local\Temp\arduino_build_xy zxyz\GPS_Tracker_ESP8266V1_WEB_FRSKY_OTA.ino.bin
-On l'identifie facilement par la date/heure de compilation.
+C:\Users\xxxxx\AppData\Local\Temp\arduino_build_xy zxyz\GPS_Tracker_ESP8266V1_WEB_FRSKY_OTA.ino.bin, identifié facilement par sa date/heure de compilation.
 
 <img src="img/C1.PNG" width = "500">
 
