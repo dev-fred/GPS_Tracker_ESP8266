@@ -8,7 +8,7 @@ On l'identifie facilement par la date/heure de compilation.
 
 <img src="img/C1.PNG" width = "500">
 
-#### Page OTG
+#### Page OTA
 <img src="img/C2.PNG" width = "500">
 
 #### Choix du fichier ino, chargé au préalable sue le smartphone
