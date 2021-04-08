@@ -29,7 +29,11 @@ Dans la cas d'un ESP01, modifier le fichier ino de la façon suivante:
 1. #define GPS_RX_PIN 0            // (PIN 5)D1 Brancher le fil Tx du GPS : ESP01 PIN 0 GPIO0 Brancher le fil Tx du GPS
 2. #define GPS_TX_PIN 2            // (PIN 4)D2 Brancher le fil Rx du GPS : ESP01 PIN 2 GPIO2 Brancher le fil Rx du GPS 
 #### Pour la télémétrie :
-3. #define SPORT_PIN FrSkySportSingleWireSerial::SOFT_SERIAL_PIN_3                //frsky sport  D8 : ESP01 PIN 3 GPIO3 Brancher le fil Sport du récepteur Frsky
+3. #define SPORT_PIN FrSkySportSingleWireSerial::SOFT_SERIAL_PIN_3  //frsky sport  D8 : ESP01 PIN 3 GPIO3 Brancher le fil Sport du récepteur Frsky
+4. Il faut également insérer **,SOFT_SERIAL_PIN_3 = 3** à la ligne 40 du fichier libraries/FrSkySportTelemetry/FrSkySportSingleWireSerial.h :
+```javascript
+#elif defined(ESP8266)
+    enum SerialId { SERIAL_EXTINV = EXTINV_FLAG | 0, SOFT_SERIAL_PIN_3 = 3, SOFT_SERIAL_PIN_4 = 4, SOFT_SERIAL_PIN_D2 = 4, SOFT_SERIAL_PIN_5 = 5, SOFT_SERIAL_PIN_D1 = 5, SOFT_SERIAL_PIN_12 = 12, SOFT_SERIAL_PIN_D6 = 12,
 
 
 
