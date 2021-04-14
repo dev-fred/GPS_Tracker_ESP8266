@@ -53,21 +53,49 @@ int32_t gps_home_alt = 0;
 int16_t heading = 0;
 float distanceToHome = 0;    // distance to home in meters
 int16_t directionToHome = 0; // direction to home in degrees
+char craftname[15] = "Mon nom";
+msp_name_t name = {0};
+//int32_t relative_alt = 1000;       // in milimeters
+msp_altitude_t altitude = {0};
+msp_analog_t analog = {0};
+msp_battery_state_t battery_state = {0};
+uint8_t batteryState = 0;// voltage color 0==white, 1==red
 
-void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groundspeed,int16_t _heading)
+void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groundspeed,int16_t _heading,int32_t relative_alt,uint16_t vbat)
 {
     //MSP_RAW_GPS
     raw_gps.lat = (int32_t)(gps_lat*10000000.0f);
     raw_gps.lon = (int32_t)(gps_lon*10000000.0f);
     raw_gps.numSat = numSat;
-    raw_gps.alt = (int32_t) 0;
+    raw_gps.alt = (int16_t) relative_alt / 10; //cm
     raw_gps.groundSpeed = (int16_t)(groundspeed * 100);
     msp.send(MSP_RAW_GPS, &raw_gps, sizeof(raw_gps));
+
+    //MSP_ALTITUDE
+    altitude.estimatedActualPosition = (int32_t)relative_alt / 10; //cm
+    msp.send(MSP_ALTITUDE, &altitude, sizeof(altitude));
   
     //MSP_COMP_GPS
     comp_gps.distanceToHome = (int16_t)(distanceToHome);
     comp_gps.directionToHome = directionToHome - _heading;
     msp.send(MSP_COMP_GPS, &comp_gps, sizeof(comp_gps));
+
+    //MSP_NAME
+    memcpy(name.craft_name, craftname, sizeof(craftname));
+    msp.send(MSP_NAME, &name, sizeof(name));
+
+    //MSP_ANALOG
+    analog.vbat = vbat;
+    //analog.rssi = rssi;
+    //analog.amperage = amperage;
+    //analog.mAhDrawn = mAhDrawn;
+    msp.send(MSP_ANALOG, &analog, sizeof(analog));
+    
+    //MSP_BATTERY_STATE
+    battery_state.batteryVoltage = vbat ;
+    battery_state.batteryState = batteryState;// voltage color 0==white, 1==red
+    msp.send(MSP_BATTERY_STATE, &battery_state, sizeof(battery_state));
+    
 }
 
 msp_osd_config_t msp_osd_config = {0};
@@ -488,6 +516,9 @@ unsigned int _sat = 0;
 float GPS[]={0.0,0.0,0.0,0.0};
 uint8_t Y=0,M=0,D=0,H=0,MN=0,S=0;
 unsigned int status = 0;//status télémétrie
+uint16_t vbat = 0;
+const int analogInPin = A0;  // ESP8266 Analog Pin ADC0 = A0
+double voltage=0;
 
 /* Status Widget Balise
     [0]  = "NO STAT",
@@ -503,8 +534,13 @@ void loop()
   if (millis() - sendosd > 2000) {
     blink_sats();  
     GPS_calculateDistanceAndDirectionToHome(GPS[0],GPS[1]);
-    send_msp_to_airunit(GPS[0],GPS[1],gps.satellites.value(),GPS[3],(uint16_t)gps.course.deg());
+    vbat=analogRead(analogInPin);//On ne mesure qu'une cellule de la batterie
+    voltage = map(vbat,0,1023, 0, 330);//ADC 10 bits = 1023, A0 = 3.3V max sur le NodeMcu X 100 pour garder la résolution
+    vbat=voltage*0.2;//Diviseur résistif par 2 (R1=39K, R2=39K) + division par 10 de vbat, il reste X 10 car affichage fixe X.X-> décalage à gauche
+    if (vbat<36)//seuil alarme de 3,6 Volts X 10
+    {batteryState=1;} else {batteryState=0;}// voltage color 0==white, 1==red
     send_osd_config();
+    send_msp_to_airunit(GPS[0],GPS[1],gps.satellites.value(),GPS[3],(uint16_t)gps.course.deg(),1000*(GPS[2]-altitude_ref),vbat);
     sendosd=millis();
   }
   
