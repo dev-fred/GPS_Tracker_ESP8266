@@ -15,7 +15,7 @@ const uint16_t osd_crosshairs_pos = 2254;
 const uint16_t osd_home_dir_pos = 2062;
 const uint16_t osd_home_dist_pos =2126;
 const uint16_t osd_craft_name_pos = 2542;
-const uint16_t osd_main_batt_voltage_pos = 2240;
+uint16_t osd_main_batt_voltage_pos = 2240;
 
 const uint16_t osd_numerical_vario_pos = 234;
 const uint16_t osd_rssi_value_pos = 234;

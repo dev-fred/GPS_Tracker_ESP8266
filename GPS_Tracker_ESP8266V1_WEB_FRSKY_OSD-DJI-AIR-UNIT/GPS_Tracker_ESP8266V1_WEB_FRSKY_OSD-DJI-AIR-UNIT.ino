@@ -212,8 +212,10 @@ void GPS_calculateDistanceAndDirectionToHome(double gps_lat,double gps_lon)
 #include <FrSkySportSingleWireSerial.h>
 #include <FrSkySportTelemetry.h>
 #include "FrSkySportSensorGps_Cust.h"
+#include "FrSkySportSensorFlvss.h"
 
 FrSkySportSensorGps_Cust gpsfrsky;     // Create GPS sensor with default ID
+FrSkySportSensorFlvss flvss;          // Create FLVSS sensor with default ID
 FrSkySportTelemetry telemetry;
 #define SPORT_PIN FrSkySportSingleWireSerial::SOFT_SERIAL_PIN_D6 //frsky sport
 
@@ -403,6 +405,21 @@ void blink_sats()
   }
 }
 
+uint8_t alarme_bat = 0;
+uint16_t blink_batt_orig_pos = osd_main_batt_voltage_pos;
+void blink_batt()
+{
+    if(alarme_bat == 1) { 
+      if (osd_main_batt_voltage_pos > 2000){osd_main_batt_voltage_pos = 234;} 
+      else 
+      {osd_main_batt_voltage_pos = blink_batt_orig_pos; }}
+    if(alarme_bat == 0) {
+    osd_main_batt_voltage_pos = blink_batt_orig_pos;
+  }
+}
+
+
+
 void setup()
 {
   Serial.begin(115600);
@@ -413,9 +430,9 @@ void setup()
     Serial.flush();
     delay(1000);
   }
-  //telemetrie frsky pour le GPS
-  telemetry.begin(SPORT_PIN, &gpsfrsky);
-    
+  //telemetrie frsky pour le GPS et la batterie, cellule 1
+  telemetry.begin(SPORT_PIN, &gpsfrsky,&flvss);
+  //telemetry.begin(SPORT_PIN, &gpsfrsky);  
   //connection sur le terrain à un smartphone
     // start WiFi
     WiFi.mode(WIFI_AP);
@@ -532,13 +549,15 @@ void loop()
   
   //MSP_OSD
   if (millis() - sendosd > 2000) {
-    blink_sats();  
     GPS_calculateDistanceAndDirectionToHome(GPS[0],GPS[1]);
     vbat=analogRead(analogInPin);//On ne mesure qu'une cellule de la batterie
     voltage = map(vbat,0,1023, 0, 330);//ADC 10 bits = 1023, A0 = 3.3V max sur le NodeMcu X 100 pour garder la résolution
     vbat=voltage*0.2;//Diviseur résistif par 2 (R1=39K, R2=39K) + division par 10 de vbat, il reste X 10 car affichage fixe X.X-> décalage à gauche
+    flvss.setData(voltage*0.02);  // Cell 1 voltage in volts note: prend en compte à partir de 0.5V
     if (vbat<36)//seuil alarme de 3,6 Volts X 10
-    {batteryState=1;} else {batteryState=0;}// voltage color 0==white, 1==red
+    {batteryState=1;alarme_bat=1;} else {batteryState=0;alarme_bat=0;}// voltage color 0==white, 1==red
+    blink_sats();
+    blink_batt();
     send_osd_config();
     send_msp_to_airunit(GPS[0],GPS[1],gps.satellites.value(),GPS[3],(uint16_t)gps.course.deg(),1000*(GPS[2]-altitude_ref),vbat);
     sendosd=millis();
