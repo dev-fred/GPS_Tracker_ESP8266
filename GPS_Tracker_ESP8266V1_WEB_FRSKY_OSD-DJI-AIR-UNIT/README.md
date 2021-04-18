@@ -13,7 +13,7 @@ DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos p
 * La tension d'une cellule de la batterie avec une alarme en rouge si < 3,6V
 * Le nom du modèle défini à la ligne 56
 
-La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
+La partie FRSKY, également connectée, envoie les données de télémesure à la radio. La tension d'une cellule de la batterie est également envoyée à la télémétrie.
 
 ### Carte
 Ce projet nécessitant 2 UARTs utilise un NodeMCU de la famille ESP8266.
