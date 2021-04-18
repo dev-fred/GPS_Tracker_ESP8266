@@ -64,10 +64,12 @@ Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une fo
 Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une sortie MSP vers une caméra 
 DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos provenant du GPS de la balise :
 * La latitude, la longitude
+* L'altitude relative
 * Le nombre de satellites (clignote tant que la position de départ n'est pas définie)
 * La vitesse sol
 * La direction du point de départ
 * La distance au point de départ
+* La tension d'une cellule de la batterie avec une alarme en rouge si < 3,6V
 
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
