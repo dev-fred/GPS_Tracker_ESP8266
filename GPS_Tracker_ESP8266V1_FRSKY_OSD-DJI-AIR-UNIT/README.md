@@ -14,7 +14,7 @@ La partie FRSKY, également connectée, envoie les données de télémesure à l
 
 ### Carte
 Ce projet nécessitant 2 UARTs utilise un NodeMCU de la famille ESP8266.
-J'ai utilisé la carte NodeMCU Amica V2 ESP8266MOD 12-F de [AZ-Delivery](https://www.az-delivery.de/fr/products/nodemcu) qui se compile avec la carte ESP8266 NodeMCU 1.0 (ESP-12E Module)
+J'ai utilisé la carte NodeMCU Amica V2 ESP8266MOD 12-F de [AZ-Delivery](https://www.az-delivery.de/fr/products/nodemcu) qui se compile avec la carte ESP8266 NodeMCU 1.0 (ESP-12E Module) mais on peut aussi utiliser le D1 Mini qui est un mini nodemcu (https://www.az-delivery.de/fr/products/d1-mini?) qui se compile avec la carte "Generic ESP8266 module", en lui adjoignant éventuellement un régulateur 5V car il est plus délicat que les nodemcu qui embarquent le régulateur AMS1117 .
 
 ### Câblage
 
