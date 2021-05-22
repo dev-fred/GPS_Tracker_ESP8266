@@ -388,13 +388,7 @@ void loop()
     
     //**************************************************************************
     //Calcul VMAX et renseigne les datas de la page WEB
-    //80m/s max 
-    if (GPS[3] < 80) {
-      if (VMAX <  GPS[3]){VMAX =  GPS[3]; 
-        Serial.print("VMAX=");Serial.print(VMAX*3.60);
-        Serial.print(" HDOP=");Serial.println(gps.hdop.hdop());}
-    } else { Serial.print(">>>>VMAX=");Serial.println(GPS[3]*3.60);}
-    
+    if (VMAX < gps.speed.mps()){VMAX = gps.speed.mps();} 
     snprintf(buff[1], sizeof(buff[1]), "UTC:%d:%d:%d", gps.time.hour(), gps.time.minute(), gps.time.second());
     _sat = gps.satellites.value(); if (_sat < limite_sat){snprintf(buff[2], sizeof(buff[2]), "--SAT:%u", _sat);}else{snprintf(buff[2], sizeof(buff[2]), "SAT:%u", _sat);}
     _hdop = gps.hdop.hdop(); if (_hdop > limite_hdop){ snprintf(buff[3], sizeof(buff[3]), "++HDOP:%.2f", _hdop);}else{snprintf(buff[3], sizeof(buff[3]), "HDOP:%.2f", _hdop);}
