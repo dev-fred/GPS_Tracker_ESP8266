@@ -35,7 +35,8 @@ Dans la cas d'un ESP01, modifier le fichier ino de la façon suivante:
 #elif defined(ESP8266)
     enum SerialId { SERIAL_EXTINV = EXTINV_FLAG | 0, SOFT_SERIAL_PIN_3 = 3, SOFT_SERIAL_PIN_4 = 4, SOFT_SERIAL_PIN_D2 = 4, SOFT_SERIAL_PIN_5 = 5, SOFT_SERIAL_PIN_D1 = 5, SOFT_SERIAL_PIN_12 = 12, SOFT_SERIAL_PIN_D6 = 12,
 
-
+#### Schéma ESP01
+<img src="img/Description.jpg" width = "500">
 
 
 
