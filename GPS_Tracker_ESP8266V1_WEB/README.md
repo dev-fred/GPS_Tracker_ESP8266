@@ -16,3 +16,8 @@ Il suffit de se connecter sur un smartphone, sans mot de passe, sur le réseau q
 
 * reste allumée durant la phase de recherche de satellites qui s'achève avec l'enregistrement de la position de départ quand hdop < 2.0 et nb sats  > 5
 * change d'état à chaque envoi de trame toutes les 3 secondes
+
+### Code du buzzer optionnel
+* tick = phase de recherche de satellites
+* Beep = un satellite de +
+* Beep Beep Beep = enregistrement des coordonnées de départ
