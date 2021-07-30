@@ -13,7 +13,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 /*------------------------------------------------------------------------------
-  5/03/2021
+  30/07/2021
   Author: Fred.Dev
   Platforms: ESP8266
   Language: C++/Arduino
@@ -23,17 +23,13 @@
   https://github.com/f5soh/balise_esp32
   FrSkySportTelemetry https://www.rcgroups.com/forums/showthread.php?2245978-FrSky-S-Port-telemetry-library-easy-to-use-and-configurable
   https://github.com/d3ngit/djihdfpv_mavlink_to_msp_V2
-  
-  Add MSP to DJI Air unit
-  Utilise une carte NodeMCU Amica V2 ESP8266MOD 12-F, se compile avec la carte NodeMCU 1.0 (ESP-12E Module)
+
+  *  Envoi les données GPS de la balise au DJI HD FPV system via le protocole MSP et à la telemetrie FRSKY
+  *  ESP8266 TX1 to DJI Air unit RX(115200)
 ------------------------------------------------------------------------------*/
 
-
-/* DJI HD FPV to MSP
-  *  Converts Frsky telemetry data to MSP telemetry data compatible with the DJI HD FPV system.
-  *
-  *  Arduino nodeMCU TX to DJI Air unit RX(115200)
-*/
+//Telemetrie FRSKY en option
+#define FRSKY ON
 
 #include "MSP.h"
 #include "MSP_OSD.h"
@@ -53,13 +49,25 @@ int32_t gps_home_alt = 0;
 int16_t heading = 0;
 float distanceToHome = 0;    // distance to home in meters
 int16_t directionToHome = 0; // direction to home in degrees
-char craftname[15] = "Mon nom";
+char craftname[15] = "Ranger2000";
 msp_name_t name = {0};
 //int32_t relative_alt = 1000;       // in milimeters
 msp_altitude_t altitude = {0};
 msp_analog_t analog = {0};
 msp_battery_state_t battery_state = {0};
 uint8_t batteryState = 0;// voltage color 0==white, 1==red
+
+uint32_t flightModeFlags = 0;
+msp_status_BF_t status_BF = {0};
+//DJI supported flightModeFlags
+// 0b00000001 acro/arm
+// 0b00000010 stab
+// 0b00000100 hor
+// 0b00001000 head
+// 0b00010000 !fs!
+// 0b00100000 resc
+// 0b01000000 acro
+// 0b10000000 acro
 
 void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groundspeed,int16_t _heading,int32_t relative_alt,uint16_t vbat)
 {
@@ -95,6 +103,10 @@ void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groun
     battery_state.batteryVoltage = vbat ;
     battery_state.batteryState = batteryState;// voltage color 0==white, 1==red
     msp.send(MSP_BATTERY_STATE, &battery_state, sizeof(battery_state));
+
+    //MSP_STATUS -> Start DJI recording when flightModeFlags = 0b00000001 acro/arm 
+    status_BF.flightModeFlags = flightModeFlags;
+    msp.send(MSP_STATUS, &status_BF, sizeof(status_BF));
     
 }
 
@@ -207,6 +219,7 @@ void GPS_calculateDistanceAndDirectionToHome(double gps_lat,double gps_lon)
   }
 }
 
+#if FRSKY == ON
 //Frsky telemetry
 #include <FrSkySportSensor.h>
 #include <FrSkySportSingleWireSerial.h>
@@ -217,7 +230,8 @@ void GPS_calculateDistanceAndDirectionToHome(double gps_lat,double gps_lon)
 FrSkySportSensorGps_Cust gpsfrsky;     // Create GPS sensor with default ID
 FrSkySportSensorFlvss flvss;          // Create FLVSS sensor with default ID
 FrSkySportTelemetry telemetry;
-#define SPORT_PIN FrSkySportSingleWireSerial::SOFT_SERIAL_PIN_D6 //frsky sport
+#define SPORT_PIN FrSkySportSingleWireSerial::SOFT_SERIAL_PIN_D8 //frsky sport
+#endif
 
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
@@ -505,10 +519,16 @@ void setup()
     //built in blue LED -> change d'état à chaque envoi de trame
     pinMode(led_pin, OUTPUT);
     
-    //msp TX
-    Serial.begin(MSP_BAUD_RATE);
-    Serial.swap();//on passe sur l'UART2 du nodeMCU
-    msp.begin(Serial);
+/*    Serial
+The ESP8266 has two hardware UARTS (Serial ports):
+UART0 on pins 1 and 3 (TX0 and RX0 resp.), and UART1 on pins 2 and 8 (TX1 and RX1 resp.), 
+however, GPIO8 is used to connect the flash chip. This means that UART1 can only transmit data.
+To use UART1 (TX1 = GPIO2), use the Serial1 object.
+*/
+
+    //MSP = D4/pin 2 de ESP8266 D1 mini = Serial1 = TX1 -> RX Vista
+    Serial1.begin(MSP_BAUD_RATE);
+    msp.begin(Serial1);
 }
 
 unsigned int TRBcounter = 0;
@@ -563,6 +583,7 @@ void loop()
     sendosd=millis();
   }
   
+#if FRSKY == ON   
   // preparation telemetrie GPS
   gpsfrsky.setData(GPS[0],GPS[1],     // Latitude and longitude in degrees decimal (positive for N/E, negative for S/W)
     GPS[2]-altitude_ref,            // Altitude in m (can be negative)
@@ -576,6 +597,7 @@ void loop()
   VMAX);                              // VMAX
   //envoi telemetrie
   telemetry.send(); 
+#endif
   
   // Ici on lit les données qui arrivent du GPS et on les passe à la librairie TinyGPS++ pour les traiter
   while (softSerial.available())  gps.encode(softSerial.read());
@@ -632,6 +654,7 @@ void loop()
       gps_home_lon = HLng;
       gps_home_alt = altitude_ref;
       set_home = 0;
+      flightModeFlags = 0b00000001;//Start DJI recording
       
       snprintf(buff[11], sizeof(buff[11]), "DLNG:%.4f", HLng);
       snprintf(buff[12], sizeof(buff[12]), "DLAT:%.4f", HLat);
