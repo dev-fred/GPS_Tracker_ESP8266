@@ -26,6 +26,7 @@
 
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
+//installer manuellement http://arduiniana.org/libraries/tinygpsplus/
 #include <TinyGPS++.h>
 #include <ESP8266WebServer.h>
 #include "index.h" //Web page file

@@ -23,6 +23,7 @@ FrSkySportTelemetry telemetry;
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <SoftwareSerial.h>
+//installer manuellement http://arduiniana.org/libraries/tinygpsplus/
 #include <TinyGPS++.h>
 #include <WebSocketsServer.h>
 #include <Hash.h>

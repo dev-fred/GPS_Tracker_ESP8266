@@ -23,6 +23,7 @@
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>   
 #include "droneID_FR.h"
+//installer manuellement http://arduiniana.org/libraries/tinygpsplus/
 #include <TinyGPS++.h> 
  
 // ======= Paramètres balise esp32 ** à modifier ** ============= //
