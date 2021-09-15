@@ -61,7 +61,7 @@ Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une fo
 
 <img src="GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT/img/GOOGLES.PNG" width = "600">
 
-Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une sortie MSP vers une caméra 
+Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une sortie MSP vers un 
 DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos provenant du GPS de la balise :
 * La latitude, la longitude
 * L'altitude relative
@@ -73,7 +73,6 @@ DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos p
 
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
-Ce projet nécessitant 2 UARTs utilise un NodeMCU de la famille ESP8266.
 
 # GPS_Tracker_ESP8266V1_MAP
 

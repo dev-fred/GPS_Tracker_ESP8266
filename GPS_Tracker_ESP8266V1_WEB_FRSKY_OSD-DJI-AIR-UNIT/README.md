@@ -1,4 +1,4 @@
-# GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT-R1
+# GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT
 
 <img src="img/GOOGLES.PNG" width = "600">
 
@@ -10,8 +10,8 @@ DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos p
 * La direction du point de départ
 * La distance au point de départ
 
-Cette version succède à la version GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT en déclenchant l'enregistrement quand la position de décollage est connu.
-L'UART2 est remplacé par le TX de l'UART1 qui suffit au pilotage de l'OSD via le MSP ce qui permet d'utiliser un ESP8266 D1 mini ou équvalent.
+Cette version permet le déclenchant l'enregistrement quand la position de décollage est connu.
+L'UART2 est remplacé par TX1 de l'UART1 qui suffit au pilotage de l'OSD via le MSP ce qui permet d'utiliser un ESP8266 D1 mini ou équivalent.
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
 ### Carte
