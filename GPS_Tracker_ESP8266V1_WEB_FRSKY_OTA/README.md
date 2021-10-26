@@ -29,8 +29,8 @@ C:\Users\xxxxx\AppData\Local\Temp\arduino_build_xy zxyz\GPS_Tracker_ESP8266V1_WE
 
 Dans la cas d'un ESP01, modifier le fichier ino de la façon suivante: 
 #### Pour le GPS :
-1. #define GPS_RX_PIN 0            // (PIN 5)D1 Brancher le fil Tx du GPS : ESP01 PIN 0 GPIO0 Brancher le fil Tx du GPS
-2. #define GPS_TX_PIN 2            // (PIN 4)D2 Brancher le fil Rx du GPS : ESP01 PIN 2 GPIO2 Brancher le fil Rx du GPS 
+1. #define GPS_RX_PIN 0            //ESP01 PIN 0 GPIO0 Brancher le fil Tx du GPS
+2. #define GPS_TX_PIN 2            //ESP01 PIN 2 GPIO2 Brancher le fil Rx du GPS 
 #### Pour la télémétrie :
 3. #define SPORT_PIN FrSkySportSingleWireSerial::SOFT_SERIAL_PIN_3  //frsky sport  D8 : ESP01 PIN 3 GPIO3 Brancher le fil Sport du récepteur Frsky
 4. Il faut également insérer **,SOFT_SERIAL_PIN_3 = 3** à la ligne 40 du fichier libraries/FrSkySportTelemetry/FrSkySportSingleWireSerial.h :
