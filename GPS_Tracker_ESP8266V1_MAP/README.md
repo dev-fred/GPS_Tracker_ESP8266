@@ -1,3 +1,5 @@
+>**ATTENTION**, ce projet m'a fait rêver, mais je le déconseille, il ne tient pas ses promesses; la portée de la balise et la fréquence d'échantillonnage des positions GPS sont très insuffisantes. Il n'y a que l'utilisation de la télémétrie FRSKY via le S.port qui permet un retour GPS fiable dans la radio https://github.com/dev-fred/GPS_Tracker_ESP8266/tree/main/GPS_Tracker_ESP8266V1_FRSKY.
+
 Cette version de balise affiche une carte utilisant Open Street Map, un projet ayant le but de créer une carte libre du monde et Leaflet, une bibliothèque Javascript open-source. 
 
 Elle tourne sur un esp8266 WEMOS D1 mini relié à un GPS BN220 -> carte Wemos D1 R1 et Flash size "4M (FS:none OTA:~1019KB)"
