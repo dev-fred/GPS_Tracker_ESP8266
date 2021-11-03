@@ -13,7 +13,7 @@ DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos p
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
 ### Carte
-Ce projet utilise la carte ESP8266-01S de [AZ-Delivery](https://www.az-delivery.de/fr/products/esp8266-01) qui se compile avec la carte Generic ESP8266
+Ce projet, développé avec plastinaf, utilise la carte ESP8266-01S de [AZ-Delivery](https://www.az-delivery.de/fr/products/esp8266-01) qui se compile avec la carte Generic ESP8266
 
 ### Schéma
 
@@ -25,6 +25,7 @@ Ce projet utilise la carte ESP8266-01S de [AZ-Delivery](https://www.az-delivery.
 
 ### GPIO15
 
+Récupération du port GPIO15
 <img src="img/GPIO15.PNG" width = "800">
 
 ### Configuration des positions
