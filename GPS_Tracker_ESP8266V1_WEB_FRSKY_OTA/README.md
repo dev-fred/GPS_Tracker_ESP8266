@@ -27,7 +27,7 @@ C:\Users\xxxxx\AppData\Local\Temp\arduino_build_xy zxyz\GPS_Tracker_ESP8266V1_WE
 #### Schéma ESP01S
 En mode fonctionnement CH_EN est relié à VCC
 
-<img src="img/Description.jpg" width = "500">
+<img src="img/FRSKY-ESP01.PNG" width = "500">
 
 Dans la cas d'un ESP01S, modifier le fichier ino de la façon suivante: 
 #### Pour le GPS :

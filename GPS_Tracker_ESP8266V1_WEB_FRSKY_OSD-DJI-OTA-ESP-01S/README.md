@@ -21,11 +21,14 @@ Ce projet, développé avec plastinaf, utilise la carte ESP8266-01S de [AZ-Deliv
 
 ### Câblage
 
+En mode fonctionnement CH_EN est relié à VCC
+
 <img src="img/Description.jpg" width = "800">
 
 ### GPIO15
 
-Récupération du port GPIO15
+* Récupération du port GPIO15
+* CH_EN est relié à VCC
 <img src="img/GPIO15.PNG" width = "800">
 
 ### Configuration des positions
