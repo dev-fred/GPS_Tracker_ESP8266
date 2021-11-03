@@ -25,7 +25,7 @@ C:\Users\xxxxx\AppData\Local\Temp\arduino_build_xy zxyz\GPS_Tracker_ESP8266V1_WE
 ### Note ESP01S
 
 #### Schéma ESP01S
-En mode fonctionnement CH_EN et RST sont reliés à VCC
+En mode fonctionnement CH_EN est relié à VCC
 
 <img src="img/Description.jpg" width = "500">
 
