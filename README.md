@@ -59,6 +59,9 @@ Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une fo
 
 ### [Code](GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT)
 
+# GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-OTA-ESP-01S
+### [Code](GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-OTA-ESP-01S)
+
 <img src="GPS_Tracker_ESP8266V1_WEB_FRSKY_OSD-DJI-AIR-UNIT/img/GOOGLES.PNG" width = "600">
 
 Battit au-dessus de GPS_Tracker_ESP8266V1_WEB_FRSKY, cette version ajoute une sortie MSP vers un 
