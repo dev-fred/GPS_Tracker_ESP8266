@@ -13,7 +13,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 /*------------------------------------------------------------------------------
-  5/03/2021
+  3/11/2021
   Author: Fred.Dev
   Platforms: ESP8266
   Language: C++/Arduino
@@ -25,9 +25,8 @@
   https://github.com/d3ngit/djihdfpv_mavlink_to_msp_V2
   
   Add MSP to DJI Air unit
-  Utilise une carte NodeMCU Amica V2 ESP8266MOD 12-F, se compile avec la carte NodeMCU 1.0 (ESP-12E Module)
+  Utilise une carte ESP01S
 ------------------------------------------------------------------------------*/
-
 
 /* DJI HD FPV to MSP
   *  Converts Frsky telemetry data to MSP telemetry data compatible with the DJI HD FPV system.
@@ -53,21 +52,52 @@ int32_t gps_home_alt = 0;
 int16_t heading = 0;
 float distanceToHome = 0;    // distance to home in meters
 int16_t directionToHome = 0; // direction to home in degrees
+char craftname[15] = "Ranger2000";
+msp_name_t name = {0};
+//int32_t relative_alt = 1000;       // in milimeters
+msp_altitude_t altitude = {0};
+msp_analog_t analog = {0};
+msp_battery_state_t battery_state = {0};
+uint8_t batteryState = 0;// voltage color 0==white, 1==red
 
-void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groundspeed,int16_t _heading)
+uint32_t flightModeFlags = 0;
+msp_status_BF_t status_BF = {0};
+//DJI supported flightModeFlags
+// 0b00000001 acro/arm
+// 0b00000010 stab
+// 0b00000100 hor
+// 0b00001000 head
+// 0b00010000 !fs!
+// 0b00100000 resc
+// 0b01000000 acro
+// 0b10000000 acro	
+							  
+void send_msp_to_airunit(double gps_lat,double gps_lon,int8_t numSat,float groundspeed,int16_t _heading,int32_t relative_alt)
 {
     //MSP_RAW_GPS
     raw_gps.lat = (int32_t)(gps_lat*10000000.0f);
     raw_gps.lon = (int32_t)(gps_lon*10000000.0f);
     raw_gps.numSat = numSat;
-    raw_gps.alt = (int32_t) 0;
+    raw_gps.alt = (int16_t) relative_alt / 10; //cm
     raw_gps.groundSpeed = (int16_t)(groundspeed * 100);
     msp.send(MSP_RAW_GPS, &raw_gps, sizeof(raw_gps));
-  
+
+    //MSP_ALTITUDE
+    altitude.estimatedActualPosition = (int32_t)relative_alt / 10; //cm
+    msp.send(MSP_ALTITUDE, &altitude, sizeof(altitude));
+    
     //MSP_COMP_GPS
     comp_gps.distanceToHome = (int16_t)(distanceToHome);
     comp_gps.directionToHome = directionToHome - _heading;
     msp.send(MSP_COMP_GPS, &comp_gps, sizeof(comp_gps));
+
+    //MSP_NAME
+    memcpy(name.craft_name, craftname, sizeof(craftname));
+    msp.send(MSP_NAME, &name, sizeof(name));
+
+     //MSP_STATUS -> Start DJI recording when flightModeFlags = 0b00000001 acro/arm 
+    status_BF.flightModeFlags = flightModeFlags;
+    msp.send(MSP_STATUS, &status_BF, sizeof(status_BF));
 }
 
 msp_osd_config_t msp_osd_config = {0};
@@ -266,8 +296,8 @@ void flip_Led() {
 
 #define GPS_9600 9600           // Valeur par défaut
 #define GPS_57600 57600         // Autre config possible du GPS
-#define GPS_RX_PIN 0        // (PIN 5)D1 Brancher le fil Tx du GPS : ESP01 PIN 0 GPIO0 Brancher le fil Tx du GPS
-#define GPS_TX_PIN 2        // (PIN 4)D2 Brancher le fil Rx du GPS : ESP01 PIN 2 GPIO2 Brancher le fil Rx du GPS
+#define GPS_RX_PIN 0        //  ESP01 GPIO0 Brancher le fil Tx du GPS
+#define GPS_TX_PIN 2        //  ESP01 GPIO2 Brancher le fil Rx du GPS
 
 SoftwareSerial softSerial(GPS_RX_PIN, GPS_TX_PIN);
 TinyGPSPlus gps;
@@ -498,7 +528,7 @@ void setup()
     
     //msp TX
     Serial.begin(MSP_BAUD_RATE);
-    Serial.swap();//on passe sur l'UART2 du nodeMCU
+    Serial.swap();//on passe sur l'UART2 
     msp.begin(Serial);
 }
 
@@ -539,7 +569,7 @@ void loop()
   if (millis() - sendosd > 2000) {
     blink_sats();  
     GPS_calculateDistanceAndDirectionToHome(GPS[0],GPS[1]);
-    send_msp_to_airunit(GPS[0],GPS[1],gps.satellites.value(),GPS[3],(uint16_t)gps.course.deg());
+    send_msp_to_airunit(GPS[0],GPS[1],gps.satellites.value(),GPS[3],(uint16_t)gps.course.deg(),1000*(GPS[2]-altitude_ref));
     send_osd_config();
     sendosd=millis();
   }
@@ -613,6 +643,7 @@ void loop()
       gps_home_lon = HLng;
       gps_home_alt = altitude_ref;
       set_home = 0;
+	  flightModeFlags = 0b00000001;//Start DJI recording													
       
       snprintf(buff[11], sizeof(buff[11]), "DLNG:%.4f", HLng);
       snprintf(buff[12], sizeof(buff[12]), "DLAT:%.4f", HLat);

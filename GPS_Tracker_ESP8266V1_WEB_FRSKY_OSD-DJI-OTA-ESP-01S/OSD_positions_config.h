@@ -8,19 +8,19 @@
 
 const uint16_t osd_gps_lon_pos = 2048;
 const uint16_t osd_gps_lat_pos = 2080;
-const uint16_t osd_gps_speed_pos = 2208;
-      uint16_t osd_gps_sats_pos = 2144;
-const uint16_t osd_crosshairs_pos = 234;
-const uint16_t osd_home_dir_pos = 2094;
-const uint16_t osd_home_dist_pos =2158;
+const uint16_t osd_gps_speed_pos = 2176;
+uint16_t osd_gps_sats_pos = 2144;
+const uint16_t osd_altitude_pos = 2208;
+const uint16_t osd_crosshairs_pos = 2254;
+const uint16_t osd_home_dir_pos = 2062;
+const uint16_t osd_home_dist_pos =2126;
+const uint16_t osd_craft_name_pos = 2542;
+uint16_t osd_main_batt_voltage_pos = 2240;
 
-const uint16_t osd_altitude_pos = 234;
-const uint16_t osd_main_batt_voltage_pos = 234;
 const uint16_t osd_numerical_vario_pos = 234;
 const uint16_t osd_rssi_value_pos = 234;
 const uint16_t osd_avg_cell_voltage_pos = 234;
 const uint16_t osd_flymode_pos = 234;
-const uint16_t osd_craft_name_pos = 234;
 const uint16_t osd_current_draw_pos = 234;
 const uint16_t osd_mah_drawn_pos = 234;
 const uint16_t osd_pitch_angle_pos = 234;
