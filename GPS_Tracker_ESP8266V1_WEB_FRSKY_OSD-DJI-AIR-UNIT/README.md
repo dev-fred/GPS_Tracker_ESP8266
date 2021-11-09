@@ -15,11 +15,10 @@ L'UART2 est remplacé par TX1 de l'UART1 qui suffit au pilotage de l'OSD via le 
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
 ### Carte
-Ce projet utilise un ESP8266 D1 mini ou un NodeMCU.
+Ce projet utilise un ESP8266 D1 mini.
  
 ### Câblage
 
-<img src="img/AIR UNIT-R1.PNG" width = "800">
 <img src="img/CADDX VISTA-R1.PNG" width = "800">
 
 ### Configuration des positions
