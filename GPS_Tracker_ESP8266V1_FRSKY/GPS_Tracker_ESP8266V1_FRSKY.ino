@@ -169,7 +169,13 @@ void setup()
     
   // start WiFi
   WiFi.mode(WIFI_OFF);
-  
+  //conversion de l'adresse mac:
+  String temp = WiFi.macAddress();
+  temp.replace(":","");
+  //concat du prefixe et de l'adresse mac
+  temp = String(prefixe_ssid) + "" + temp;
+  //transfert dans la variable globale ssid
+  temp.toCharArray(ssid, 32);
   // set default AP settings
   WiFi.softAP(ssid, nullptr, 6, false, 0); // ssid, pwd, channel, hidden, max_cnx, 
   WiFi.setOutputPower(20.5); // max 20.5dBm

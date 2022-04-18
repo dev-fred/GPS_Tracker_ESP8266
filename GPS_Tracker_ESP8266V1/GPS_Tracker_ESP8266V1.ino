@@ -26,11 +26,9 @@
 //installer manuellement http://arduiniana.org/libraries/tinygpsplus/
 #include <TinyGPS++.h> 
  
-// ======= Paramètres balise esp32 ** à modifier ** ============= //
-/**
-  * Le nom du point d'acces wifi CHANGEZ LE par ce que vous voulez !!!
-  */
-const char ssid[] = "ILLEGAL_DRONE_AP";
+const char prefixe_ssid[] = "BALISE"; // Enter SSID here
+// déclaration de la variable qui va contenir le ssid complet = prefixe + MAC adresse
+char ssid[32]; 
 /**
   * CHANGEZ l'ID du drone par celui que Alphatango vous a fourni (Trigramme + Modèle + numéro série) !
   */
@@ -171,7 +169,13 @@ void setup() {
   
   // start WiFi
   WiFi.mode(WIFI_OFF);
-  
+  //conversion de l'adresse mac:
+  String temp = WiFi.macAddress();
+  temp.replace(":","");
+  //concat du prefixe et de l'adresse mac
+  temp = String(prefixe_ssid) + "" + temp;
+  //transfert dans la variable globale ssid
+  temp.toCharArray(ssid, 32);
   // set default AP settings
   WiFi.softAP(ssid, nullptr, 6, false, 0); // ssid, pwd, channel, hidden, max_cnx, 
   WiFi.setOutputPower(20.5); // max 20.5dBm
