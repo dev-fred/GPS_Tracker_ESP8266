@@ -10,7 +10,7 @@ DJI FPV Air Unit ou Caddx Vista, ce qui permet d'afficher dans l'OSD les infos p
 * La direction du point de départ
 * La distance au point de départ
 
-Cette version permet le déclenchant l'enregistrement quand la position de décollage est connu.
+Cette version permet le déclenchant l'enregistrement quand la position de décollage est connue.
 L'UART2 est remplacé par TX1 de l'UART1 qui suffit au pilotage de l'OSD via le MSP ce qui permet d'utiliser un ESP8266 D1 mini ou équivalent.
 La partie FRSKY, également connectée, envoie les données de télémesure à la radio.
 
