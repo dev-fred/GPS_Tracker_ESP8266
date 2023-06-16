@@ -238,6 +238,7 @@ FrSkySportTelemetry telemetry;
 //installer manuellement http://arduiniana.org/libraries/tinygpsplus/
 #include <TinyGPS++.h>
 #include <ESP8266WebServer.h>
+#include <DNSServer.h>
 #include "index.h" //Web page file
 #include "droneID_FR.h"
 
@@ -291,9 +292,8 @@ static_assert((sizeof(drone_id)/sizeof(*drone_id))<=31, "Drone ID should be less
 // ========================================================== //
 
 /* Put IP Address details-> smartphone */
-IPAddress local_ip(192, 168, 1, 10);
-IPAddress gateway(192, 168, 1, 1);
-IPAddress subnet(255, 255, 255, 0);
+IPAddress apIP(192, 168, 1, 10);
+DNSServer dnsServer;
 
 ESP8266WebServer server(80);
 
@@ -331,9 +331,14 @@ void handleReadValues() {   //pour traiter la requette de mise à jour de la pag
   server.send(200, "text/plain", mes);
 }
 
+void handleNotFound() {server.send_P(200, "text/html", webpage);}
 void beginServer()
 {
   server.begin();
+  //connexion captive
+  dnsServer.start(53, "*", apIP);
+  server.onNotFound(handleNotFound);
+    
   server.on("/",[](){server.send_P(200, "text/html", webpage);});
   server.on("/readValues", handleReadValues);
   Serial.println ( "HTTP server started" );
@@ -451,6 +456,8 @@ void setup()
   //connection sur le terrain à un smartphone
     // start WiFi
     WiFi.mode(WIFI_AP);
+    WiFi.softAP("esp-captive");
+    dnsServer.start(53, "*", WiFi.softAPIP());
     //conversion de l'adresse mac:
     String temp = WiFi.macAddress();
     temp.replace(":","_");
@@ -461,13 +468,13 @@ void setup()
     
     // set default AP settings
     WiFi.softAP(ssid, nullptr, 6, false, 4); // ssid, pwd, channel, hidden, max_cnx 
-    WiFi.softAPConfig(local_ip, gateway, subnet);
+    WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
     WiFi.setOutputPower(20.5); // max 20.5dBm
     delay(100);
   
     Serial.println();
     Serial.println("Started \\o/");
-    Serial.print("IP page WEB: ");Serial.println(local_ip);
+    Serial.print("IP page WEB: ");Serial.println(apIP);
     Serial.print("ID Drone: ");Serial.println(drone_id);
     WiFi.printDiag(Serial);
     
@@ -567,6 +574,7 @@ double voltage=0;
 void loop()
 {
   server.handleClient();
+  dnsServer.processNextRequest();
   
   //MSP_OSD
   if (millis() - sendosd > 2000) {
