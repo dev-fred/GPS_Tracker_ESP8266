@@ -25,6 +25,8 @@ C:\Users\xxxxx\AppData\Local\Temp\arduino_build_xy zxyz\GPS_Tracker_ESP8266V1_WE
 ### Note ESP01S
 
 #### Schéma ESP01S
+Il est possible de cascader ce dispositif avec un module de télémétrie Frsky/Sport comme un Vario par exemple; dans ce cas il faut insérer une résistance de 1,5K entre la sortie GPIO3 du signal sport et le connecteur JST pour protéger la sortie de l'esp8266.
+
 En mode fonctionnement CH_EN est relié à VCC
 
 <img src="img/FRSKY-ESP01.PNG" width = "500">
