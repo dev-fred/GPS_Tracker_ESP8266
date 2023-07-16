@@ -66,6 +66,7 @@ La phase découverte et le renommage des capteurs sont identiques
 Cette version ne peut pas utiliser la fonction delay() dans la boucle principal car celà désamorce le flot de données du Sport; le code du buzzer n'est pas implémenté car il utilise cette fonction.
 
 ## Câblage
+Il est possible de cascader ce dispositif avec un module de télémétrie Frsky/Sport comme un Vario par exemple; dans ce cas il faut insérer une résistance de 1,5K entre la sortie D8 du signal sport et le connecteur JST pour protéger la sortie de l'esp8266.
 
 <img src="img/cablage2.png" width = "500">
 
