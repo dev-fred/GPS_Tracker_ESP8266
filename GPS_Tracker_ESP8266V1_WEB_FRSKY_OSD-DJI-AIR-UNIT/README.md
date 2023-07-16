@@ -18,6 +18,7 @@ La partie FRSKY, également connectée, envoie les données de télémesure à l
 Ce projet utilise un ESP8266 D1 mini.
  
 ### Câblage
+Il est possible de cascader ce dispositif avec un module de télémétrie Frsky/Sport comme un Vario par exemple; dans ce cas il faut insérer une résistance de 1,5K entre la sortie D8 du signal sport et le connecteur JST pour protéger la sortie de l'esp8266.
 
 <img src="img/CADDX VISTA-R1.PNG" width = "800">
 
