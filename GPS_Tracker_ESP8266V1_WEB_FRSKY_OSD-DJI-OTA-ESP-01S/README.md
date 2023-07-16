@@ -20,7 +20,7 @@ Ce projet, développé avec plastinaf, utilise la carte ESP8266-01S de [AZ-Deliv
 <img src="img/Esp8266ex.jpg" width = "800">
 
 ### Câblage
-Il est possible de cascader ce dispositif avec un module de télémétrie Frsky/Sport comme un Vario par exemple; dans ce cas il faut insérer une résistance de 1,5K entre la sortie D3 du signal sport et le connecteur JST pour protéger la sortie de l'esp8266.
+Il est possible de cascader ce dispositif avec un module de télémétrie Frsky/Sport comme un Vario par exemple; dans ce cas il faut insérer une résistance de 1,5K entre la sortie GPIO3 du signal sport et le connecteur JST pour protéger la sortie de l'esp8266.
 
 En mode fonctionnement CH_EN est relié à VCC
 
